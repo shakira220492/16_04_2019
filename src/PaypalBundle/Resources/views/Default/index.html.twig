@@ -1,0 +1,192 @@
+{{ form_start(checkout_form_ajax, { 'attr' : {'novalidate': 'novalidate', 'role' : 'form', 'id': 'checkout-ajax'|default('form')} }) }}
+{{ form_end(checkout_form_ajax) }}
+
+{{ form_start(post_payment_form_ajax, { 'attr' : {'novalidate': 'novalidate', 'role' : 'form', 'id': 'post-payment-ajax'|default('form')} }) }}
+{{ form_end(post_payment_form_ajax) }}
+
+{{ form_start(get_payment_status_form_ajax, { 'attr' : {'novalidate': 'novalidate', 'role' : 'form', 'id': 'get-payment-status-ajax'|default('form')} }) }}
+{{ form_end(get_payment_status_form_ajax) }}
+
+{#    <input id="paypal_sendAmountToDonateInput"
+            type="text" 
+            name="item_number" 
+            placeholder="$">
+
+        <div id="paypal_button" > 
+
+            <img class="icon_image" style="top: 0px; left: 0px; width: 100%; height: 100%;"
+            src='files/images/icons/configuration/paypal.png' 
+            alt='Mountain View'>
+
+        </div>#}
+
+
+
+
+
+
+
+
+
+    <!-- Set up a container element for the button -->
+    <div id="paypal-button-container"></div>
+    
+    
+    <div id="paypal-button-container_abc_123" 
+         style="background-color: #1ab7ea;
+         position: absolute;
+         top: 100px;
+         left: 0px;
+         width: 50px;
+         height: 50px;
+         cursor: pointer;
+         "
+         >
+            <a href="{{ asset('t_Paypal/paypal123/') }}{{ 1 }}" target="_blank">abc_123</a>
+    </div>
+    
+    <script>
+        {#document.getElementById("paypal-button-container_abc_123");#}
+
+{#        $('#paypal-button-container_abc_123')
+        .click(function () {
+            postPayment();
+        });#}
+    </script>
+    
+    
+
+    <!-- Include the PayPal JavaScript SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=ATg4hDECz7fnRBM6NDiao3TnTSRcYeS3yG8ApvKSiGZazIKyu6jW-AYxBXGTHb7TM4KFy53o8fkMeVQK&currency=USD"></script>
+
+    <script>
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+            style: {
+                layout: 'horizontal'
+            },
+            
+            
+            
+            
+            
+            
+            
+    env: 'sandbox', // Or 'production'
+    // Set up the payment:
+    // 1. Add a payment callback
+    payment: function(data, actions) {
+      // 2. Make a request to your server
+      return actions.request.post('/my-api/create-payment/')
+{#      return actions.request.post('/t_Paypal/paypal123/1/')#}
+        .then(function(res) {
+          // 3. Return res.id from the response
+          return res.id;
+        });
+    },
+    // Execute the payment:
+    // 1. Add an onAuthorize callback
+    onAuthorize: function(data, actions) {
+      // 2. Make a request to your server
+      return actions.request.post('/my-api/execute-payment/', {
+        paymentID: data.paymentID,
+        payerID:   data.payerID
+      })
+        .then(function(res) {
+          // 3. Show the buyer a confirmation message.
+          alert("cdskj");
+          
+          {#postPayment();#}
+        });
+    }
+            
+            
+            
+            }
+            
+        
+        
+        
+        ).render('#paypal-button-container');
+        
+        
+        
+    </script>
+
+
+
+
+
+
+
+
+
+<script>
+    
+
+    
+    
+    
+    $('#paypal_sendAmountToDonateInput')
+    .keypress(function (e) {
+        return solo_numeros(e);
+    });
+    
+    
+    
+    
+    
+{#    var submitPaypalId = document.getElementById("submitPaypalId");
+    submitPaypalId.addEventListener("click", checkout, false);#}
+    
+    function checkout()
+    {
+        {#alert("qwertyuiop");#}
+        var product = document.getElementById("productPaypalId").value;
+        var price = document.getElementById("pricePaypalId").value;
+        
+        var form = $('#checkout-ajax');
+        var url = form.attr('action');
+        
+        $.post(url, {product: product, price: price}, function (data)
+        {
+            alert("checkout");
+        }).fail(function () {
+            alert('ERROR checkout');
+        });
+    }
+    
+    
+    {#checkoutAction#}
+    
+{#    window.onload = postPayment();
+    window.onload = getPaymentStatus();#}
+    
+    function postPayment()
+    {
+        {#enviamos nuestro pedido a paypal#}
+        var form = $('#post-payment-ajax');
+        var url = form.attr('action');
+
+        $.post(url, function (data)
+        {
+            alert("post-payment-ajax");
+        }).fail(function () {
+            alert('ERROR post-payment-ajax');
+        });
+    }
+    
+    function getPaymentStatus()
+    {
+        {#paypal redirecciona a esta ruta#}
+        var form = $('#get-payment-status-ajax');
+        var url = form.attr('action');
+
+        $.post(url, function (data)
+        {
+            alert("get-payment-status-ajax");
+        }).fail(function () {
+            alert('ERROR get-payment-status-ajax');
+        });
+    }
+</script>

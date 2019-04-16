@@ -1,0 +1,27 @@
+checkout_form:
+    path:     /checkout
+    defaults: { _controller: PaypalBundle:Default:checkout }
+    methods:  POST
+
+post_payment_form:
+    path:     /postPayment
+    defaults: { _controller: PaypalBundle:Paypal:postPayment }
+    methods:  POST
+
+get_payment_status_form:
+    path:     /getPaymentStatus
+    defaults: { _controller: PaypalBundle:Paypal:getPaymentStatus }
+    methods:  POST
+    
+paypal_form_123:
+    path:     /paypal123/{id}
+    defaults: { _controller: PaypalBundle:Paypal:paypalForm123 }
+    
+paypal_success_form_123:
+    path:     /success
+    defaults: { _controller: PaypalBundle:Paypal:success }
+    
+paypal_failure_form_123:
+    path:     /failure
+    defaults: { _controller: PaypalBundle:Paypal:failure }
+    
